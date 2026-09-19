@@ -1,323 +1,831 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Samip | Creative Developer</title>
+  <title>SAMIP — Creative Developer & Designer</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              black: '#08080a',
+              card: '#101216',
+              border: '#1f242d',
+              neon: '#dfff00', // Electric LN4 style neon yellow/lime accent
+              cyan: '#00f0ff',
+              muted: '#8e96a4'
+            }
+          },
+          animation: {
+            'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+            'marquee': 'marquee 25s linear infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            pulseGlow: {
+              '0%, 100%': { opacity: 0.4, transform: 'scale(1)' },
+              '50%': { opacity: 0.8, transform: 'scale(1.05)' },
+            },
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
     :root {
-      --bg: #06070b;
-      --panel: #0f1117;
-      --panel-2: #171a23;
-      --text: #f4f2eb;
-      --muted: #9a9ca7;
-      --accent: #7c8cff;
-      --accent-2: #f5a962;
-      --border: rgba(255,255,255,0.1);
+      --neon: #dfff00;
     }
-
-    * { box-sizing: border-box; }
-
+    
     body {
-      margin: 0;
-      font-family: "Inter", "Segoe UI", Arial, sans-serif;
-      background: radial-gradient(circle at top left, #1a1d2b 0%, var(--bg) 45%, #06070b 100%);
-      color: var(--text);
-      line-height: 1.6;
+      background-color: #08080a;
+      color: #f3f4f6;
+      overflow-x: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    .page {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 24px 24px 48px;
+    /* Grid Overlay Pattern */
+    .bg-grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     }
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0 28px;
-      color: var(--muted);
-      font-size: 0.95rem;
+    /* Glow Effects */
+    .neon-glow {
+      box-shadow: 0 0 25px rgba(223, 255, 0, 0.25);
+    }
+    
+    .neon-border-hover:hover {
+      border-color: rgba(223, 255, 0, 0.6);
+      box-shadow: 0 0 20px rgba(223, 255, 0, 0.15);
     }
 
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text);
-    }
-
-    .nav-links a {
-      margin-left: 22px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-
-    .nav-links a:hover { color: var(--text); }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      background: linear-gradient(135deg, rgba(124,140,255,0.16), rgba(245,169,98,0.08));
-      padding: 56px 36px;
-      min-height: 72vh;
-      display: flex;
-      align-items: center;
-    }
-
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.35;
-      pointer-events: none;
-    }
-
-    .hero::before {
-      width: 260px;
-      height: 260px;
-      background: var(--accent);
-      top: -80px;
-      right: -40px;
-    }
-
-    .hero::after {
-      width: 220px;
-      height: 220px;
-      background: var(--accent-2);
-      bottom: -70px;
-      left: -40px;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 780px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.04);
-      color: #d8dcff;
-      font-size: 0.9rem;
-      margin-bottom: 18px;
-    }
-
-    h1 {
-      margin: 0 0 18px;
-      font-size: clamp(2.4rem, 5vw, 4.4rem);
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      font-weight: 700;
-    }
-
-    .hero p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 620px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      margin-top: 26px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      text-decoration: none;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: 600;
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .btn:hover { transform: translateY(-2px); }
-
-    .btn-primary {
-      background: var(--text);
-      color: var(--bg);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .section-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 24px;
+    /* Glassmorphic Cards */
+    .glass-card {
+      background: rgba(16, 18, 22, 0.7);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
 
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 1.1rem;
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #08080a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f242d;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #dfff00;
     }
 
-    .card p, .card li {
-      color: var(--muted);
+    /* Text Outline Style */
+    .text-stroke {
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.25);
+      color: transparent;
+    }
+    
+    .text-stroke:hover {
+      -webkit-text-stroke: 1.5px #dfff00;
+      color: transparent;
     }
 
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 0;
-      margin: 10px 0 0;
-      list-style: none;
-    }
-
-    .pill-list li {
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: rgba(255,255,255,0.04);
-    }
-
-    .projects {
-      display: grid;
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .project-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .project-item:last-child { border-bottom: none; }
-
-    .project-item strong { color: var(--text); }
-
-    .project-item span { color: var(--muted); font-size: 0.95rem; }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      padding: 32px 0 10px;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 820px) {
-      .section-grid { grid-template-columns: 1fr; }
-      .hero { padding: 42px 22px; min-height: auto; }
+    /* Selection Color */
+    ::selection {
+      background: #dfff00;
+      color: #08080a;
     }
   </style>
 </head>
-<body>
-  <div class="page">
-    <nav>
-      <div class="logo">SAMIP</div>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </nav>
+<body class="relative min-h-screen antialiased selection:bg-brand-neon selection:text-black">
 
-    <header class="hero">
-      <div class="hero-content">
-        <div class="eyebrow">● Creative developer • visual storyteller</div>
-        <h1>Designing bold digital experiences with clarity and soul.</h1>
-        <p>I craft modern, responsive websites that feel elegant, fast, and memorable — blending clean structure with thoughtful visuals.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#contact">Let’s connect</a>
-          <a class="btn btn-secondary" href="#work">See my work</a>
+  <!-- Ambient Interactive Canvas Background -->
+  <canvas id="bgCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+  <div class="fixed top-0 left-1/4 w-96 h-96 bg-brand-neon/10 rounded-full blur-[140px] pointer-events-none z-0 animate-pulse-glow"></div>
+  <div class="fixed bottom-10 right-10 w-80 h-80 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
+  <!-- Noise Overlay Texture -->
+  <div class="fixed inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+
+  <!-- Floating Top Navigation -->
+  <header class="sticky top-0 z-50 px-4 sm:px-8 py-4 backdrop-blur-md bg-brand-black/60 border-b border-white/5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="group flex items-center gap-2">
+        <span class="font-display font-extrabold text-2xl tracking-tighter text-white group-hover:text-brand-neon transition-colors duration-300">
+          SAMIP<span class="text-brand-neon">.</span>
+        </span>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-brand-muted font-mono hidden sm:inline-block">
+          v2.6
+        </span>
+      </a>
+
+      <!-- Center Status Pill (Lando Norris Inspired Meta Bar) -->
+      <div class="hidden lg:flex items-center gap-4 bg-brand-card/80 border border-white/10 rounded-full px-4 py-1.5 text-xs text-brand-muted font-medium">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-neon opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-neon"></span>
+          </span>
+          <span class="text-white font-semibold">AVAILABLE FOR FREELANCE</span>
+        </div>
+        <span class="text-white/20">|</span>
+        <div class="flex items-center gap-1.5">
+          <i class="fa-solid fa-location-dot text-brand-neon"></i>
+          <span>NEPAL / INDIA</span>
+        </div>
+        <span class="text-white/20">|</span>
+        <div class="flex items-center gap-1.5 font-mono">
+          <i class="fa-regular fa-clock"></i>
+          <span id="liveClock">--:--:--</span>
         </div>
       </div>
-    </header>
 
-    <div class="section-grid" id="about">
-      <section class="card">
-        <h3>About</h3>
-        <p>I’m Samip, a web developer focused on creating refined online experiences with HTML, CSS, and JavaScript. I enjoy turning ideas into clean interfaces that are both functional and visually striking.</p>
-      </section>
+      <!-- Quick Nav Links & CTA -->
+      <div class="flex items-center gap-3 sm:gap-6">
+        <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-brand-muted">
+          <a href="#work" class="hover:text-white transition-colors">WORK</a>
+          <a href="#about" class="hover:text-white transition-colors">ABOUT</a>
+          <a href="#skills" class="hover:text-white transition-colors">EXPERTISE</a>
+        </nav>
+        
+        <a href="#contact" class="group relative inline-flex items-center gap-2 bg-brand-neon text-brand-black px-4 py-2 rounded-full font-extrabold text-xs tracking-wider uppercase transition-all duration-300 hover:scale-105 neon-glow">
+          <span>Contact</span>
+          <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+        </a>
+      </div>
+    </div>
+  </header>
 
-      <section class="card">
-        <h3>Skills</h3>
-        <ul class="pill-list">
-          <li>HTML5</li>
-          <li>CSS3</li>
-          <li>JavaScript</li>
-          <li>Responsive Design</li>
-          <li>UI Thinking</li>
-        </ul>
-      </section>
+  <!-- Hero Section -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-12 pb-20">
+    
+    <!-- Top Meta pill for Mobile -->
+    <div class="flex lg:hidden items-center justify-between bg-brand-card border border-white/10 rounded-full px-4 py-2 text-xs text-brand-muted mb-8">
+      <div class="flex items-center gap-2">
+        <span class="h-2 w-2 rounded-full bg-brand-neon animate-pulse"></span>
+        <span class="text-white font-semibold">FREELANCE READY</span>
+      </div>
+      <div class="font-mono text-brand-neon" id="mobileClock">--:--:--</div>
     </div>
 
-    <section class="card" id="work" style="margin-top:18px;">
-      <h3>Selected work</h3>
-      <div class="projects">
-        <div class="project-item">
-          <strong>Personal Portfolio</strong>
-          <span>Minimal aesthetic • modern layout</span>
+    <!-- Main Title Block -->
+    <div class="relative">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-neon/10 border border-brand-neon/30 text-brand-neon text-xs font-mono font-bold uppercase tracking-widest mb-6">
+        <i class="fa-solid fa-bolt"></i> CREATIVE DEVELOPER & UI ARCHITECT
+      </div>
+
+      <!-- Massive Ultra-Bold Headline -->
+      <h1 class="font-display font-extrabold text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tighter leading-[0.9] uppercase text-white mb-8">
+        DESIGN <span class="text-stroke hover:text-brand-neon transition-all duration-500">&amp; CODE</span>
+        <br />
+        <span class="text-brand-neon">WITHOUT</span> LIMITS.
+      </h1>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <!-- Subtitle & Paragraph -->
+        <p class="lg:col-span-7 text-lg sm:text-xl text-brand-muted leading-relaxed font-normal">
+          I build clean, fast, and thoughtful digital interfaces. Focused on clarity, high-performance typography, and interactive web experiences that feel truly intentional.
+        </p>
+
+        <!-- Dynamic Action Badges -->
+        <div class="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">
+          <div class="glass-card px-4 py-3 rounded-2xl flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-brand-neon/10 flex items-center justify-center text-brand-neon font-bold">
+              01
+            </div>
+            <div>
+              <div class="text-xs text-brand-muted">Focus Area</div>
+              <div class="text-sm font-bold text-white">UI/UX Animation</div>
+            </div>
+          </div>
+
+          <div class="glass-card px-4 py-3 rounded-2xl flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 font-bold">
+              02
+            </div>
+            <div>
+              <div class="text-xs text-brand-muted">Engineering</div>
+              <div class="text-sm font-bold text-white">Frontend Dev</div>
+            </div>
+          </div>
         </div>
-        <div class="project-item">
-          <strong>Learning Projects</strong>
-          <span>Growing through clean code and thoughtful UI</span>
+      </div>
+    </div>
+
+    <!-- Ticker / Marquee Bar -->
+    <div class="mt-16 overflow-hidden rounded-2xl bg-brand-card border border-white/5 py-4">
+      <div class="flex whitespace-nowrap animate-marquee">
+        <div class="flex items-center gap-8 text-xs font-mono tracking-widest text-brand-muted uppercase mx-4">
+          <span>// WEB DEVELOPMENT</span> <span class="text-brand-neon">•</span>
+          <span>// CREATIVE DIRECTION</span> <span class="text-brand-neon">•</span>
+          <span>// MICRO-INTERACTIONS</span> <span class="text-brand-neon">•</span>
+          <span>// PERFORMANCE OPTIMIZATION</span> <span class="text-brand-neon">•</span>
+          <span>// UI/UX SYSTEM DESIGN</span> <span class="text-brand-neon">•</span>
         </div>
-        <div class="project-item">
-          <strong>Creative Web Experiments</strong>
-          <span>Exploring motion, structure, and visual balance</span>
+        <div class="flex items-center gap-8 text-xs font-mono tracking-widest text-brand-muted uppercase mx-4">
+          <span>// WEB DEVELOPMENT</span> <span class="text-brand-neon">•</span>
+          <span>// CREATIVE DIRECTION</span> <span class="text-brand-neon">•</span>
+          <span>// MICRO-INTERACTIONS</span> <span class="text-brand-neon">•</span>
+          <span>// PERFORMANCE OPTIMIZATION</span> <span class="text-brand-neon">•</span>
+          <span>// UI/UX SYSTEM DESIGN</span> <span class="text-brand-neon">•</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Work / Projects Section -->
+    <section id="work" class="pt-24">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+        <div>
+          <div class="text-xs font-mono text-brand-neon uppercase tracking-widest mb-2">// SELECTED WORKS</div>
+          <h2 class="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight uppercase">
+            FEATURED <span class="text-brand-neon">PROJECTS</span>
+          </h2>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex flex-wrap gap-2" id="filterContainer">
+          <button data-filter="all" class="filter-btn active px-4 py-2 rounded-full text-xs font-semibold bg-brand-neon text-brand-black transition-all">ALL</button>
+          <button data-filter="web" class="filter-btn px-4 py-2 rounded-full text-xs font-semibold glass-card text-brand-muted hover:text-white transition-all">WEB APPS</button>
+          <button data-filter="motion" class="filter-btn px-4 py-2 rounded-full text-xs font-semibold glass-card text-brand-muted hover:text-white transition-all">UI MOTION</button>
+        </div>
+      </div>
+
+      <!-- Interactive Projects Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projectsGrid">
+        
+        <!-- Project 1 -->
+        <div class="project-card group glass-card rounded-3xl p-6 sm:p-8 neon-border-hover transition-all duration-500 relative overflow-hidden" data-category="web">
+          <div class="flex items-start justify-between mb-8">
+            <span class="font-mono text-xs text-brand-neon bg-brand-neon/10 px-3 py-1 rounded-full border border-brand-neon/20">
+              01 / CONCEPT
+            </span>
+            <div class="flex gap-2">
+              <span class="text-xs font-mono text-brand-muted bg-white/5 px-2.5 py-1 rounded-md">HTML5</span>
+              <span class="text-xs font-mono text-brand-muted bg-white/5 px-2.5 py-1 rounded-md">TAILWIND</span>
+            </div>
+          </div>
+
+          <!-- Project Banner / Visual Graphic -->
+          <div class="relative h-56 sm:h-64 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-purple-900/40 via-brand-card to-black p-6 flex flex-col justify-between border border-white/10 group-hover:border-brand-neon/40 transition-colors">
+            <div class="absolute top-0 right-0 w-48 h-48 bg-brand-neon/10 rounded-full blur-3xl group-hover:bg-brand-neon/20 transition-all"></div>
+            <div class="flex justify-between items-start z-10">
+              <i class="fa-solid fa-layer-group text-3xl text-brand-neon"></i>
+              <span class="text-xs font-mono text-white/50">2026 EDITION</span>
+            </div>
+            <div class="z-10">
+              <span class="text-2xl font-bold font-display text-white group-hover:text-brand-neon transition-colors">PERSONAL PORTFOLIO</span>
+              <p class="text-xs text-brand-muted mt-1">High energy aesthetic • Dynamic micro-interactions</p>
+            </div>
+          </div>
+
+          <p class="text-brand-muted text-sm leading-relaxed mb-6">
+            A hyper-modern portfolio experience designed around speed, dark mode visual aesthetic, and ultra-crisp typographic hierarchy.
+          </p>
+
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <button onclick="openModal('Personal Portfolio', 'A ultra-modern portfolio experience engineered for high contrast, interactive layout and seamless dark-mode aesthetic.', ['HTML5', 'Tailwind CSS', 'JavaScript ES6'], 'https://samip.dev')" class="text-xs font-bold font-mono text-brand-neon uppercase tracking-wider flex items-center gap-2 hover:underline">
+              <span>EXPLORE DETAILS</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+            <span class="text-xs text-brand-muted font-mono">COMPLETE</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card group glass-card rounded-3xl p-6 sm:p-8 neon-border-hover transition-all duration-500 relative overflow-hidden" data-category="motion">
+          <div class="flex items-start justify-between mb-8">
+            <span class="font-mono text-xs text-cyan-400 bg-cyan-400/10 px-3 py-1 rounded-full border border-cyan-400/20">
+              02 / EXPERIMENTAL
+            </span>
+            <div class="flex gap-2">
+              <span class="text-xs font-mono text-brand-muted bg-white/5 px-2.5 py-1 rounded-md">GSAP</span>
+              <span class="text-xs font-mono text-brand-muted bg-white/5 px-2.5 py-1 rounded-md">CANVAS</span>
+            </div>
+          </div>
+
+          <!-- Project Banner / Visual Graphic -->
+          <div class="relative h-56 sm:h-64 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-cyan-900/30 via-brand-card to-black p-6 flex flex-col justify-between border border-white/10 group-hover:border-cyan-400/40 transition-colors">
+            <div class="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl group-hover:bg-cyan-500/20 transition-all"></div>
+            <div class="flex justify-between items-start z-10">
+              <i class="fa-solid fa-wand-magic-sparkles text-3xl text-cyan-400"></i>
+              <span class="text-xs font-mono text-white/50">LAB EXPERIMENT</span>
+            </div>
+            <div class="z-10">
+              <span class="text-2xl font-bold font-display text-white group-hover:text-cyan-400 transition-colors">LEARNING PROJECTS</span>
+              <p class="text-xs text-brand-muted mt-1">Refining UI interaction &amp; motion physics</p>
+            </div>
+          </div>
+
+          <p class="text-brand-muted text-sm leading-relaxed mb-6">
+            A curated sandbox of experimental web components, custom cursor effects, dynamic glassmorphism cards, and fluid layouts.
+          </p>
+
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <button onclick="openModal('Learning Projects', 'Continuous sandbox exploration focusing on UI animations, reactive state patterns, and GPU-accelerated canvas animations.', ['JavaScript', 'Canvas API', 'CSS Grid'], '#')" class="text-xs font-bold font-mono text-cyan-400 uppercase tracking-wider flex items-center gap-2 hover:underline">
+              <span>EXPLORE DETAILS</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+            <span class="text-xs text-brand-muted font-mono">IN PROGRESS</span>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card group glass-card rounded-3xl p-6 sm:p-8 neon-border-hover transition-all duration-500 relative overflow-hidden" data-category="web">
+          <div class="flex items-start justify-between mb-8">
+            <span class="font-mono text-xs text-brand-neon bg-brand-neon/10 px-3 py-1 rounded-full border border-brand-neon/20">
+              03 / TOOLING
+            </span>
+            <div class="flex gap-2">
+              <span class="text-xs font-mono text-brand-muted bg-white/5 px-2.5 py-1 rounded-md">REACT</span>
+              <span class="text-xs font-mono text-brand-muted bg-white/5 px-2.5 py-1 rounded-md">NODE</span>
+            </div>
+          </div>
+
+          <div class="relative h-56 sm:h-64 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-emerald-900/30 via-brand-card to-black p-6 flex flex-col justify-between border border-white/10 group-hover:border-brand-neon/40 transition-colors">
+            <div class="flex justify-between items-start z-10">
+              <i class="fa-solid fa-code text-3xl text-brand-neon"></i>
+              <span class="text-xs font-mono text-white/50">WEB UTILITY</span>
+            </div>
+            <div class="z-10">
+              <span class="text-2xl font-bold font-display text-white group-hover:text-brand-neon transition-colors">UI MOTION LAB</span>
+              <p class="text-xs text-brand-muted mt-1">Interactive animation playground</p>
+            </div>
+          </div>
+
+          <p class="text-brand-muted text-sm leading-relaxed mb-6">
+            Interactive keyframe preview tool built for testing physics curves, easing functions, and hover animations in real time.
+          </p>
+
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <button onclick="openModal('UI Motion Lab', 'A web utility built to generate smooth animation cubic-beziers and spring physics for modern frontend frameworks.', ['React', 'Framer Motion', 'Tailwind'], '#')" class="text-xs font-bold font-mono text-brand-neon uppercase tracking-wider flex items-center gap-2 hover:underline">
+              <span>EXPLORE DETAILS</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+            <span class="text-xs text-brand-muted font-mono">PROTOTYPE</span>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="project-card group glass-card rounded-3xl p-6 sm:p-8 neon-border-hover transition-all duration-500 relative overflow-hidden" data-category="motion">
+          <div class="flex items-start justify-between mb-8">
+            <span class="font-mono text-xs text-purple-400 bg-purple-400/10 px-3 py-1 rounded-full border border-purple-400/20">
+              04 / INTERACTION
+            </span>
+            <div class="flex gap-2">
+              <span class="text-xs font-mono text-brand-muted bg-white/5 px-2.5 py-1 rounded-md">THREE.JS</span>
+              <span class="text-xs font-mono text-brand-muted bg-white/5 px-2.5 py-1 rounded-md">WEBGL</span>
+            </div>
+          </div>
+
+          <div class="relative h-56 sm:h-64 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-pink-900/30 via-brand-card to-black p-6 flex flex-col justify-between border border-white/10 group-hover:border-purple-400/40 transition-colors">
+            <div class="flex justify-between items-start z-10">
+              <i class="fa-solid fa-cubes text-3xl text-purple-400"></i>
+              <span class="text-xs font-mono text-white/50">3D PROTOTYPE</span>
+            </div>
+            <div class="z-10">
+              <span class="text-2xl font-bold font-display text-white group-hover:text-purple-400 transition-colors">INTERACTIVE 3D HUD</span>
+              <p class="text-xs text-brand-muted mt-1">Spatial digital experience concept</p>
+            </div>
+          </div>
+
+          <p class="text-brand-muted text-sm leading-relaxed mb-6">
+            Experimental 3D HUD interface utilizing Three.js shaders and dynamic lighting effects for immersive web experiences.
+          </p>
+
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <button onclick="openModal('Interactive 3D HUD', 'A WebGL powered dashboard featuring camera controls, custom shader materials, and reactive mouse interaction.', ['Three.js', 'WebGL', 'GLSL Shaders'], '#')" class="text-xs font-bold font-mono text-purple-400 uppercase tracking-wider flex items-center gap-2 hover:underline">
+              <span>EXPLORE DETAILS</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+            <span class="text-xs text-brand-muted font-mono">STABLE</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- About & Skills Section -->
+    <section id="about" class="pt-28">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <!-- About Narrative -->
+        <div class="lg:col-span-7 glass-card p-8 sm:p-10 rounded-3xl flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-brand-neon/5 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div>
+            <div class="text-xs font-mono text-brand-neon uppercase tracking-widest mb-3">// ABOUT SAMIP</div>
+            <h3 class="font-display text-3xl sm:text-4xl font-extrabold text-white uppercase tracking-tight mb-6">
+              ENGINEERING INTERFACES THAT <span class="text-brand-neon">FEEL INTENTIONAL.</span>
+            </h3>
+
+            <div class="space-y-4 text-brand-muted text-sm sm:text-base leading-relaxed">
+              <p>
+                I'm a Creative Developer focused on crafting high-level digital experiences that balance bold aesthetics with smooth code architecture.
+              </p>
+              <p>
+                My philosophy revolves around precision typography, fast-loading performance, and micro-interactions that make web pages feel alive.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-white/10">
+            <div>
+              <div class="text-xs text-brand-muted font-mono">LOCATION</div>
+              <div class="text-sm font-bold text-white mt-1">Nepal / India</div>
+            </div>
+            <div>
+              <div class="text-xs text-brand-muted font-mono">STATUS</div>
+              <div class="text-sm font-bold text-brand-neon mt-1">Available</div>
+            </div>
+            <div>
+              <div class="text-xs text-brand-muted font-mono">FOCUS</div>
+              <div class="text-sm font-bold text-white mt-1">UI Motion</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Core Stack / Skills Cards -->
+        <div class="lg:col-span-5 flex flex-col gap-4" id="skills">
+          
+          <div class="glass-card p-6 rounded-3xl">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-brand-neon/10 flex items-center justify-center text-brand-neon">
+                <i class="fa-solid fa-code text-sm"></i>
+              </div>
+              <h4 class="font-bold font-display text-white uppercase tracking-wide">Frontend Architecture</h4>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-white">JavaScript (ES6+)</span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-white">HTML5 / CSS3</span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-white">Tailwind CSS</span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-white">React.js</span>
+            </div>
+          </div>
+
+          <div class="glass-card p-6 rounded-3xl">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-cyan-400/10 flex items-center justify-center text-cyan-400">
+                <i class="fa-solid fa-paintbrush text-sm"></i>
+              </div>
+              <h4 class="font-bold font-display text-white uppercase tracking-wide">Design &amp; Motion</h4>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-white">UI Micro-interactions</span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-white">Figma Layouts</span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-white">Typography Design</span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono bg-white/5 border border-white/10 text-white">Canvas API</span>
+            </div>
+          </div>
+
+          <div class="glass-card p-6 rounded-3xl bg-gradient-to-r from-brand-card to-brand-neon/5 border border-brand-neon/20">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-mono text-brand-neon">CURRENTLY LEARNING</span>
+                <div class="text-lg font-bold text-white mt-0.5">Advanced WebGL &amp; Shader FX</div>
+              </div>
+              <i class="fa-solid fa-graduation-cap text-2xl text-brand-neon"></i>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Contact & Call to Action -->
+    <section id="contact" class="pt-28">
+      <div class="glass-card rounded-3xl p-8 sm:p-12 md:p-16 relative overflow-hidden text-center border border-white/10">
+        <!-- Glows -->
+        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-neon/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-2xl mx-auto">
+          <span class="inline-block text-xs font-mono text-brand-neon uppercase tracking-widest bg-brand-neon/10 px-3 py-1 rounded-full mb-4 border border-brand-neon/20">
+            // LET'S COLLABORATE
+          </span>
+          
+          <h2 class="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight uppercase mb-6">
+            GOT A PROJECT <br/><span class="text-brand-neon">IN MIND?</span>
+          </h2>
+          
+          <p class="text-brand-muted text-base sm:text-lg mb-8">
+            Open for collaborations, freelance development, and full-time creative opportunities.
+          </p>
+
+          <!-- Interactive Copy Email Box -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button id="copyEmailBtn" class="group w-full sm:w-auto flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/15 px-6 py-4 rounded-2xl text-white font-mono text-sm sm:text-base transition-all duration-300">
+              <i class="fa-regular fa-envelope text-brand-neon"></i>
+              <span id="emailText">shahsamip20671007@gmail.com</span>
+              <span id="copyBadge" class="bg-brand-neon text-brand-black font-bold text-xs px-2.5 py-1 rounded-lg ml-2 group-hover:scale-105 transition-transform">
+                COPY
+              </span>
+            </button>
+
+            <a href="mailto:shahsamip20671007@gmail.com" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-neon text-brand-black font-extrabold px-8 py-4 rounded-2xl text-sm tracking-wider uppercase neon-glow hover:scale-105 transition-all">
+              <span>SEND EMAIL</span>
+              <i class="fa-solid fa-paper-plane"></i>
+            </a>
+          </div>
+
+          <div id="toast" class="opacity-0 transition-opacity duration-300 text-xs font-mono text-brand-neon mt-4 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-check"></i> Copied to clipboard!
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="card" id="contact" style="margin-top:18px;">
-      <h3>Contact</h3>
-      <p>Open for collaborations, learning projects, and new ideas.</p>
-      <a id="copyEmail" class="btn btn-secondary" href="#" style="margin-top:8px; display:inline-block;">shahsamip20671007@gmail.com</a>
-    </section>
+    <!-- Footer -->
+    <footer class="mt-20 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-brand-muted gap-4">
+      <div>
+        © 2026 <span class="text-white font-bold">SAMIP</span>. INSPIRED BY LANDONORIS.COM
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#work" class="hover:text-white transition-colors">WORK</a>
+        <a href="#about" class="hover:text-white transition-colors">ABOUT</a>
+        <a href="#contact" class="hover:text-white transition-colors">CONTACT</a>
+      </div>
+    </footer>
 
-    <footer>© 2026 Samip — Crafted with care.</footer>
+  </main>
+
+  <!-- Project Detail Modal -->
+  <div id="projectModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="glass-card max-w-lg w-full rounded-3xl p-6 sm:p-8 border border-white/15 relative transform scale-95 transition-transform duration-300" id="modalContainer">
+      <button onclick="closeModal()" class="absolute top-6 right-6 text-brand-muted hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="text-xs font-mono text-brand-neon mb-2 uppercase">// PROJECT OVERVIEW</div>
+      <h3 class="font-display font-extrabold text-2xl text-white uppercase mb-4" id="modalTitle">Project Title</h3>
+      
+      <p class="text-brand-muted text-sm leading-relaxed mb-6" id="modalDesc">
+        Project description goes here.
+      </p>
+
+      <div class="mb-6">
+        <div class="text-xs font-mono text-white/50 mb-2">TECHNOLOGIES USED</div>
+        <div class="flex flex-wrap gap-2" id="modalTags">
+          <!-- Tags injected dynamically -->
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+        <button onclick="closeModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white">CLOSE</button>
+        <a id="modalLink" href="#" target="_blank" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-brand-neon text-brand-black neon-glow flex items-center gap-2">
+          <span>VISIT PROJECT</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
   </div>
 
   <script>
-    const emailLink = document.getElementById('copyEmail');
-    const emailAddress = 'shahsamip20671007@gmail.com';
+    // 1. Interactive Canvas Particles Background
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
 
-    emailLink.addEventListener('click', async function (event) {
-      event.preventDefault();
-      try {
-        await navigator.clipboard.writeText(emailAddress);
-        emailLink.textContent = 'Email copied!';
-        setTimeout(() => {
-          emailLink.textContent = emailAddress;
-        }, 1500);
-      } catch (err) {
-        emailLink.textContent = 'Copy failed';
-        setTimeout(() => {
-          emailLink.textContent = emailAddress;
-        }, 1500);
+    let width, height;
+    let particles = [];
+    let mouse = { x: null, y: null };
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initParticles();
+    }
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 1.5 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
       }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        // Mouse displacement
+        if (mouse.x && mouse.y) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            this.x -= (dx / dist) * 1.5;
+            this.y -= (dy / dist) * 1.5;
+          }
+        }
+      }
+
+      draw() {
+        ctx.fillStyle = 'rgba(223, 255, 0, 0.4)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.floor((width * height) / 18000);
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    resizeCanvas();
+    animateParticles();
+
+    // 2. Dynamic Local Live Clock
+    function updateClock() {
+      const now = new Date();
+      
+      // Format time with 2-digit hours, minutes, and seconds in user's local time
+      const timeFormatter = new Intl.DateTimeFormat(undefined, {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      const timeStr = timeFormatter.format(now);
+
+      // Extract short timezone abbreviation or standard format offset
+      let tzAbbr = '';
+      try {
+        const tzName = new Intl.DateTimeFormat(undefined, { timeZoneName: 'short' })
+          .formatToParts(now)
+          .find(part => part.type === 'timeZoneName');
+        tzAbbr = tzName ? ` ${tzName.value}` : '';
+      } catch (e) {
+        // Fallback offset calculation if timeZoneName is unavailable
+        const offsetMin = -now.getTimezoneOffset();
+        const sign = offsetMin >= 0 ? '+' : '-';
+        const hrs = String(Math.floor(Math.abs(offsetMin) / 60)).padStart(2, '0');
+        const mins = String(Math.abs(offsetMin) % 60).padStart(2, '0');
+        tzAbbr = ` UTC${sign}${hrs}:${mins}`;
+      }
+
+      const fullClockString = `${timeStr}${tzAbbr}`;
+
+      const desktopClock = document.getElementById('liveClock');
+      const mobileClock = document.getElementById('mobileClock');
+
+      if (desktopClock) desktopClock.textContent = fullClockString;
+      if (mobileClock) mobileClock.textContent = fullClockString;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // 3. Email Copy Functionality
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const emailText = 'shahsamip20671007@gmail.com';
+    const copyBadge = document.getElementById('copyBadge');
+    const toast = document.getElementById('toast');
+
+    function copyToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } catch (e) {}
+      document.body.removeChild(textarea);
+      return Promise.resolve();
+    }
+
+    copyEmailBtn.addEventListener('click', () => {
+      copyToClipboard(emailText).then(() => {
+        copyBadge.textContent = 'COPIED!';
+        copyBadge.style.backgroundColor = '#00f0ff';
+        toast.classList.remove('opacity-0');
+
+        setTimeout(() => {
+          copyBadge.textContent = 'COPY';
+          copyBadge.style.backgroundColor = '#dfff00';
+          toast.classList.add('opacity-0');
+        }, 2000);
+      });
+    });
+
+    // 4. Project Filtering
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-brand-neon', 'text-brand-black');
+          b.classList.add('glass-card', 'text-brand-muted');
+        });
+        btn.classList.add('bg-brand-neon', 'text-brand-black');
+        btn.classList.remove('glass-card', 'text-brand-muted');
+
+        const filter = btn.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // 5. Modal Functionality
+    const modal = document.getElementById('projectModal');
+    const modalContainer = document.getElementById('modalContainer');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalTags = document.getElementById('modalTags');
+    const modalLink = document.getElementById('modalLink');
+
+    function openModal(title, desc, tags, link) {
+      modalTitle.textContent = title;
+      modalDesc.textContent = desc;
+      modalLink.href = link;
+
+      modalTags.innerHTML = '';
+      tags.forEach(t => {
+        const tagSpan = document.createElement('span');
+        tagSpan.className = 'px-3 py-1 rounded-md text-xs font-mono bg-white/5 border border-white/10 text-brand-neon';
+        tagSpan.textContent = t;
+        modalTags.appendChild(tagSpan);
+      });
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modalContainer.classList.remove('scale-95');
+      modalContainer.classList.add('scale-100');
+    }
+
+    function closeModal() {
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modalContainer.classList.remove('scale-100');
+      modalContainer.classList.add('scale-95');
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
     });
   </script>
 </body>
